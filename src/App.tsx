@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import * as RouteConstant from '@/constants/RouteConstants'
+import HomeContainer from '@/views/web/home/HomeContainer'
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  public render() {
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route exact={true} path="/" component={HomeContainer} />
+          <Route path={RouteConstant.WEB_PATH} component={HomeContainer} />
+          <Redirect to={RouteConstant.NOT_FOUNT_PATH} />
+        </Switch>
+      </BrowserRouter>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = (state: any) => {
+  return {
+    prop: state.prop
+  }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    dispatch1: () => {
+      //   dispatch(actionCreator)
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
