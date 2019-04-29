@@ -1,9 +1,9 @@
 /*
- * @Description: 博客页面主体布局模块
+ * @Description: 首页容器组件
  * @Author: tgb
  * @LastEditors: tgb
- * @Date: 2019-04-28 16:01:28
- * @LastEditTime: 2019-04-28 19:21:51
+ * @Date: 2019-04-29 15:37:03
+ * @LastEditTime: 2019-04-29 15:40:07
  */
 import { connect } from 'react-redux'
 import Home from './components/Home'
