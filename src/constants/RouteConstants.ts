@@ -1,5 +1,5 @@
 /*
- * @Description: 配置所有路由常量
+ * @Description: 配置所有路由
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-28 15:39:28

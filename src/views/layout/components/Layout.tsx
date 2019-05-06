@@ -3,15 +3,21 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-04-29 17:54:16
+ * @LastEditTime: 2019-05-06 15:04:48
  */
 import React from 'react'
+import { RouteComponentProps } from 'react-router'
+import { withRouter } from 'react-router-dom'
 import { Layout, Row, Col, BackTop } from 'antd'
 import Header from '@/views/components/header/Header'
 import SideBar from '@/views/components/sidebar/Sidebar'
 import LayoutRoute from './LayoutRoute'
 
-class BlogLayout extends React.Component {
+type PathParamsType = {}
+
+type PropsType = RouteComponentProps<PathParamsType> & {}
+
+class BlogLayout extends React.Component<PropsType> {
   public render() {
     const siderLayout = { xxl: 4, xl: 5, lg: 5, sm: 0, xs: 0 }
     const contentLayout = { xxl: 20, xl: 19, lg: 19, sm: 24, xs: 24 }
@@ -35,4 +41,4 @@ class BlogLayout extends React.Component {
   }
 }
 
-export default BlogLayout
+export default withRouter(BlogLayout)

@@ -3,12 +3,11 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:50:06
- * @LastEditTime: 2019-04-29 14:35:00
+ * @LastEditTime: 2019-05-06 14:56:52
  */
 
 import React from 'react'
 import { Input, Icon, Row, Col } from 'antd'
-// import { withRouter } from 'react-router-dom'
 interface IHeaderSearchState {
   keyword: ''
 }

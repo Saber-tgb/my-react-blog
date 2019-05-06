@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:43:47
- * @LastEditTime: 2019-04-29 15:07:00
+ * @LastEditTime: 2019-05-06 14:39:03
  */
 
 import React from 'react'
@@ -11,6 +11,7 @@ import { Layout, Row, Col } from 'antd'
 import HeaderLeft from './HeaderLeft'
 import HeaderSearch from './HeaderSearch'
 import HeaderNav from './HeaderNav'
+import HeaderUserInfo from './HeaderUserInfo'
 import './Header.less'
 
 const Header = Layout.Header
@@ -49,6 +50,7 @@ const BlogHeader = () => {
         </Col>
         <Col {...responsiveRight}>
           <HeaderSearch />
+          <HeaderUserInfo />
           <HeaderNav navList={navList} />
         </Col>
       </Row>

@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-26 15:21:41
- * @LastEditTime: 2019-04-29 17:32:18
+ * @LastEditTime: 2019-05-06 14:34:23
  */
 const path = require('path')
 const webpack = require('webpack')
@@ -92,6 +92,6 @@ module.exports = override(
   }),
   addLessLoader({
     javascriptEnabled: true,
-    modifyVars: { '@primary-color': '#1DA57A' }
+    modifyVars: { '@primary-color': '#1890ff' }
   })
 )
