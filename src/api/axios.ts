@@ -2,74 +2,138 @@
  * @Description: axios封装
  * @Author: tgb
  * @LastEditors: tgb
- * @Date: 2019-05-06 17:59:49
- * @LastEditTime: 2019-05-06 18:00:49
+ * @Date: 2019-05-07 14:50:45
+ * @LastEditTime: 2019-05-07 16:39:38
  */
-import axios from 'axios';
-import { message } from 'antd';
 
-const request = axios.create({
-  baseURL:
-    process.env.NODE_ENV === 'development'
-      ? 'http://127.0.0.1:6060/'
-      : 'http://120.79.10.11:6060/', // api的base_url
-  timeout: 20000, // 请求超时时间
-});
+import Axios, {
+  AxiosRequestConfig,
+  AxiosInstance,
+  AxiosResponse,
+  AxiosError
+} from 'axios'
+import * as qs from 'qs'
+import { message } from 'antd'
 
-let timer: any;
-//拦截请求
-request.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.common['Authorization'] = 'Bearer ' + token;
-    }
-    return config;
-  },
-  (error) => {
-    message.error('bed request');
-    Promise.reject(error);
-  },
-);
-//拦截响应
-request.interceptors.response.use(
-  (response) => {
-    if (response.data.code === 401 && response.data.message)
-      message.warning(response.data.message);
-    return response.data;
-  },
-  (err) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      if (err && err.response) {
-        switch (err.response.status) {
-          case 400:
-            message.error('错误请求');
-            break;
-          case 401:
-            localStorage.clear();
-            message.error('登录信息过期或未授权，请重新登录！');
-            break;
-          case 403:
-            message.error('拒绝访问！');
-            break;
-          case 404:
-            message.error('请求错误,未找到该资源！');
-            break;
-          case 500:
-            message.error('服务器出问题了，请稍后再试！');
-            break;
-          default:
-            message.error(`连接错误 ${err.response.status}！`);
-            break;
+export interface IResponseSuccess {
+  code: number
+  data: any
+}
+
+export interface IResponseFailed {
+  code: number
+  data: any
+}
+
+let timer: any
+
+class HttpClient {
+  public commonOption: AxiosRequestConfig
+  public axios: AxiosInstance
+
+  constructor(commonOption: AxiosRequestConfig, config: AxiosRequestConfig) {
+    this.commonOption = commonOption
+    this.axios = Axios.create(config)
+
+    //添加默认的请求拦截器
+    this.axios.interceptors.request.use(
+      (requestConfig: AxiosRequestConfig): any => {
+        const token = localStorage.getItem('token')
+        if (token) {
+          requestConfig.headers.common['Authorization'] = 'Bearer ' + token
         }
-      } else {
-        message.error('服务器出了点小问题，请稍后再试！');
+        return requestConfig
+      },
+      (error: AxiosError) => {
+        message.error('bed request')
+        Promise.reject(error)
       }
-    }, 200); // 200 毫秒内重复报错则只提示一次！
+    )
+    // 添加默认的响应拦截器
+    this.axios.interceptors.response.use(
+      (response: AxiosResponse) => {
+        if (response.data.code === 401 && response.data.message)
+          message.warning(response.data.message)
+        return response.data
+      },
+      (error: AxiosError) => {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          if (error && error.response) {
+            switch (error.response.status) {
+              case 400:
+                message.error('错误请求')
+                break
+              case 401:
+                localStorage.clear()
+                message.error('登录信息过期或未授权，请重新登录！')
+                break
+              case 403:
+                message.error('拒绝访问！')
+                break
+              case 404:
+                message.error('请求错误,未找到该资源！')
+                break
+              case 500:
+                message.error('服务器出问题了，请稍后再试！')
+                break
+              default:
+                message.error(`连接错误 ${error.response.status}！`)
+                break
+            }
+          } else {
+            message.error('服务器出了点小问题，请稍后再试！')
+          }
+        }, 200) // 200 毫秒内重复报错则只提示一次！
+      }
+    )
+  }
 
-    return Promise.reject(err);
-  },
-);
+  /**
+   * post
+   * @method post
+   * The same as axios.post
+   * 返回值为any
+   */
+  public post = (url: string, data?: any, option?: AxiosRequestConfig): any => {
+    return this.axios.post(
+      url,
+      data,
+      Object.assign({}, this.commonOption, option)
+    )
+  }
 
-export default request;
+  /**
+   * post
+   * @method post
+   * The same as axios.post
+   * 返回值为any
+   */
+  public get = (url: string, option?: AxiosRequestConfig): any => {
+    return this.axios.get(url, Object.assign({}, this.commonOption, option))
+  }
+
+  /**
+   * postFrom
+   * @method postForm
+   * post 发送表单的快捷方式
+   */
+  public postForm = (
+    url: string,
+    data?: any,
+    option?: AxiosRequestConfig
+  ): any => {
+    return this.post(url, data, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      transformRequest: [
+        ({ data }: { data: any }) => {
+          return qs.stringify(data)
+        }
+      ]
+    })
+  }
+}
+
+export default HttpClient

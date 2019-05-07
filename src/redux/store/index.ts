@@ -3,9 +3,9 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-28 10:53:46
- * @LastEditTime: 2019-04-28 18:00:14
+ * @LastEditTime: 2019-05-07 19:47:39
  */
-import rootReducer from '../reducers/reducers'
+import rootReducer from '../reducers'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage/session'

@@ -2,8 +2,8 @@
  * @Description: 配置所有actionType常量
  * @Author: tgb
  * @LastEditors: tgb
- * @Date: 2019-04-28 10:26:46
- * @LastEditTime: 2019-04-28 10:28:15
+ * @Date: 2019-05-07 19:43:11
+ * @LastEditTime: 2019-05-07 19:43:44
  */
 export const DEMO_ADD_COUNT = 'DEMO_ADD_COUNT'
 export const DEMO_LOGIN = 'DEMO_LOGIN'
