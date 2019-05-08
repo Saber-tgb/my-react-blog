@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-07 17:47:34
- * @LastEditTime: 2019-05-07 19:49:07
+ * @LastEditTime: 2019-05-08 14:48:16
  */
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
@@ -19,7 +19,6 @@ interface ITagsProps {
 class Tags extends React.Component<ITagsProps> {
   public render() {
     const { type, list, colorList } = this.props
-
     return (
       <Fragment>
         <Divider type="vertical" />
@@ -49,6 +48,4 @@ const mapStateToProps = (state: any) => ({
   colorList: state.global.colorList
 })
 
-const TagsContainer = connect(mapStateToProps)(Tags)
-
-export default TagsContainer
+export default connect(mapStateToProps)(Tags)

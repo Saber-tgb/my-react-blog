@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-07 19:24:25
- * @LastEditTime: 2019-05-07 19:46:45
+ * @LastEditTime: 2019-05-08 15:12:27
  */
 
 import { IGlobalStates } from '@/constants/TypeConstants'
@@ -25,13 +25,21 @@ const defaultState: IGlobalStates = {
     'cyan',
     'geekblue',
     'purple'
-  ]
+  ],
+  colorMap: {},
+  // 浏览器窗口宽度
+  windowWidth: 0
+  // loginModalVisible: false,
+  // registerModalVisible: false,
+
+  // drawerVisible: false
 }
 
 const global = (state = defaultState, action: any) => {
   const { type, payload } = action
   switch (type) {
-    case actionTypes.COMMON_COLOR_MAP:
+    // 标签颜色
+    case actionTypes.GLOBAL_COLOR_MAP:
       const list = groupBy(payload, (item: any) => item.userId)
       const colorList = state.colorList
       let colorMap = {}
@@ -43,6 +51,8 @@ const global = (state = defaultState, action: any) => {
         })
       })
       return { ...state, colorMap }
+    case actionTypes.GLOBAL_GET_WINDOW_WIDTH:
+      return { ...state, windowWidth: payload }
     default:
       return state
   }

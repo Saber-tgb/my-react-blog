@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-07 14:50:45
- * @LastEditTime: 2019-05-07 16:39:38
+ * @LastEditTime: 2019-05-08 17:31:49
  */
 
 import Axios, {
@@ -104,13 +104,21 @@ class HttpClient {
   }
 
   /**
-   * post
-   * @method post
-   * The same as axios.post
+   * get
+   * @method get
+   * The same as axios.get
    * 返回值为any
    */
-  public get = (url: string, option?: AxiosRequestConfig): any => {
-    return this.axios.get(url, Object.assign({}, this.commonOption, option))
+  public get = (
+    url: string,
+    params?: any,
+    option?: AxiosRequestConfig
+  ): any => {
+    console.log(option)
+    return this.axios.get(
+      url,
+      Object.assign({ params }, this.commonOption, option)
+    )
   }
 
   /**

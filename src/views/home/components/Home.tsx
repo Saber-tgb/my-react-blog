@@ -3,25 +3,42 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-05-07 19:12:38
+ * @LastEditTime: 2019-05-08 18:46:24
  */
 import React, { Fragment } from 'react'
-import { Divider, Icon } from 'antd'
+import { RouteComponentProps } from 'react-router'
+import { withRouter } from 'react-router-dom'
+import { Divider, Icon, Empty } from 'antd'
 import { getArticleList } from '@/api'
-import { translateMarkdown, getCommentsCount } from '@/utils'
+import { translateMarkdown, getCommentsCount, decodeQuery } from '@/utils'
+import Loading from '@/views/components/loading/Loading'
 import Tags from '@/views/components/tags/Tags'
+import BlogPagination from '@/views/components/blogPagination/BlogPagination'
 
-interface IHomeProps {
-  props: any
+interface INoDataDescProps {
+  keyword?: string
 }
+
+const NoDataDesc: React.FC<INoDataDescProps> = (props) => (
+  <Fragment>
+    不存在标题中含有 <span className="keyword">{props.keyword}</span> 的文章！
+  </Fragment>
+)
+
+type PathParamsType = {}
+
+type HomePropsType = RouteComponentProps<PathParamsType> & {
+  navList: any[]
+}
+
 interface IHomeStates {
   list: any[]
   total: number
   loading: boolean
 }
 
-class Home extends React.Component<IHomeProps, IHomeStates> {
-  constructor(props: IHomeProps) {
+class Home extends React.Component<HomePropsType, IHomeStates> {
+  constructor(props: HomePropsType) {
     super(props)
     this.state = {
       list: [],
@@ -31,8 +48,13 @@ class Home extends React.Component<IHomeProps, IHomeStates> {
   }
 
   // 获取文章列表
-  private _getArticleList() {
-    const params = { page: 1, pageSize: 10, title: 222 }
+  private _getArticleList({ page, keyword }: any) {
+    this.setState({ loading: true })
+    const params = {
+      page,
+      pageSize: 10,
+      title: keyword
+    }
     getArticleList(params)
       .then((res: any) => {
         const list = res.rows
@@ -48,47 +70,93 @@ class Home extends React.Component<IHomeProps, IHomeStates> {
   // 跳转文章详情
   private jumpTo(id: number) {}
 
+  // 分页
+  private handlePageChange = (page: number) => {
+    // document.querySelector('.content-wrapper').scrollTop = 0
+    let params = { ...decodeQuery(this.props.location.search), page }
+    let url = ''
+    Object.entries(params).forEach((item) => {
+      url = !url ? `?${item[0]}=${item[1]}` : `${url}&${item[0]}=${item[1]}`
+    })
+    this.props.history.push(url)
+  }
+
   componentDidMount() {
-    this._getArticleList()
+    const params = decodeQuery(this.props.location.search)
+    this._getArticleList(params)
+  }
+
+  componentWillReceiveProps(nextProps: any) {
+    if (this.props.location.search !== nextProps.location.search) {
+      const params = decodeQuery(nextProps.location.search)
+      this._getArticleList(params)
+    }
   }
 
   public render() {
-    const { list } = this.state
+    const { list, total, loading } = this.state
+    const { page, keyword } = decodeQuery(this.props.location.search)
     return (
       <div className="content-inner-wrapper home">
-        <Fragment>
-          <ul className="ul-list">
-            {list.map((item: any) => (
-              <li key={item.id} className="ul-list-item">
-                {/* 标题 */}
-                <Divider orientation="left">
-                  <span className="title" onClick={() => this.jumpTo(item.id)}>
-                    {item.title}
-                  </span>
-                  <span className="create-time">
-                    {item.createdAt.slice(0, 10)}
-                  </span>
-                </Divider>
-                {/* 内容 */}
-                <div
-                  onClick={() => this.jumpTo(item.id)}
-                  className="article-detail description"
-                  dangerouslySetInnerHTML={{ __html: item.description }}
-                />
-                {/* 标签 */}
-                <div className="list-item-action">
-                  <Icon type="message" style={{ marginRight: 7 }} />
-                  {getCommentsCount(item.comments)}
-                  <Tags type="tags" list={item.tags} />
-                  <Tags type="categories" list={item.categories} />
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Fragment>
+        {loading ? (
+          // loaidng动画
+          <Loading />
+        ) : (
+          <Fragment>
+            {/* 博客列表 */}
+            <ul className="ul-list">
+              {list.map((item: any) => (
+                <li key={item.id} className="ul-list-item">
+                  {/* 标题 */}
+                  <Divider orientation="left">
+                    <span
+                      className="title"
+                      onClick={() => this.jumpTo(item.id)}
+                    >
+                      {item.title}
+                    </span>
+                    <span className="create-time">
+                      {item.createdAt.slice(0, 10)}
+                    </span>
+                  </Divider>
+                  {/* 内容 */}
+                  <div
+                    onClick={() => this.jumpTo(item.id)}
+                    className="article-detail description"
+                    dangerouslySetInnerHTML={{ __html: item.description }}
+                  />
+                  {/* 标签 */}
+                  <div className="list-item-action">
+                    <Icon type="message" style={{ marginRight: 7 }} />
+                    {getCommentsCount(item.comments)}
+                    <Tags type="tags" list={item.tags} />
+                    <Tags type="categories" list={item.categories} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {list.length > 0 ? (
+              <Fragment>
+                {/* 分页器 */}
+                {list.length < total && (
+                  <BlogPagination
+                    current={parseInt(page + '') || 1}
+                    onChange={this.handlePageChange}
+                    total={total}
+                  />
+                )}
+              </Fragment>
+            ) : (
+              // 没有数据
+              <div className="no-data">
+                <Empty description={<NoDataDesc keyword={keyword} />} />
+              </div>
+            )}
+          </Fragment>
+        )}
       </div>
     )
   }
 }
 
-export default Home
+export default withRouter(Home)

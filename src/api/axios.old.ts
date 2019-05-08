@@ -1,119 +1,132 @@
-/*
- * @Description: axios封装
- * @Author: tgb
- * @LastEditors: tgb
- * @Date: 2019-05-07 14:50:45
- * @LastEditTime: 2019-05-07 16:21:49
+/**
+ * 一个基于Axios的HttpClient封装
+ * @author stackfizz
+ * @description 为了减少通用参数传递，统一返回值处理
  */
-import axios from 'axios'
-import { message } from 'antd'
 
-// 创建axios实例
-const request = axios.create({
-  baseURL:
-    process.env.NODE_ENV === 'development'
-      ? 'http://127.0.0.1:6060/'
-      : 'http://120.79.10.11:6060/', // api的base_url
-  timeout: 20000 // 请求超时时间
-})
+import * as qs from 'qs'
+import Axios, {
+  AxiosRequestConfig,
+  AxiosInstance,
+  AxiosResponse,
+  AxiosError
+} from 'axios'
 
-let timer: any
-//拦截请求
-request.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      config.headers.common['Authorization'] = 'Bearer ' + token
-    }
-    return config
-  },
-  (error) => {
-    message.error('bed request')
-    Promise.reject(error)
-  }
-)
-//拦截响应
-request.interceptors.response.use(
-  (response) => {
-    if (response.data.code === 401 && response.data.message)
-      message.warning(response.data.message)
-    return response.data
-  },
-  (err) => {
-    clearTimeout(timer)
-    timer = setTimeout(() => {
-      if (err && err.response) {
-        switch (err.response.status) {
-          case 400:
-            message.error('错误请求')
-            break
-          case 401:
-            localStorage.clear()
-            message.error('登录信息过期或未授权，请重新登录！')
-            break
-          case 403:
-            message.error('拒绝访问！')
-            break
-          case 404:
-            message.error('请求错误,未找到该资源！')
-            break
-          case 500:
-            message.error('服务器出问题了，请稍后再试！')
-            break
-          default:
-            message.error(`连接错误 ${err.response.status}！`)
-            break
+export interface IResponseSuccess {
+  code: number
+  data: any
+}
+
+export interface IResponseFailed {
+  code: number
+  data: any
+}
+
+class HttpClient {
+  public commonOption: AxiosRequestConfig
+  public axios: AxiosInstance
+
+  constructor(commonOption: AxiosRequestConfig, option: AxiosRequestConfig) {
+    this.commonOption = commonOption
+    this.axios = Axios.create(option)
+
+    /***
+     * 添加默认的响应拦截器，把成功返回且code===0的结果直接返回data
+     */
+    this.axios.interceptors.response.use(
+      (response: AxiosResponse): any => {
+        if (response.data && response.data.code === 0) {
+          return response.data.data
+        } else if (response.data) {
+          return response.data
+        } else {
+          return response
         }
-      } else {
-        message.error('服务器出了点小问题，请稍后再试！')
+      },
+      (error: AxiosError) => {
+        return Promise.reject(error)
       }
-    }, 200) // 200 毫秒内重复报错则只提示一次！
-
-    return Promise.reject(err)
+    )
   }
-)
 
-interface IParams {
-  method: string
-  url: string
-  data: string | object
-  headers: object
-  responseType?: string
+  // Custom commonOption via merge
+  public setCommonOption = (config: AxiosRequestConfig): void => {
+    this.commonOption = Object.assign(this.commonOption, config)
+  }
+
+  // Return current commonOption
+  public getCommonOption() {
+    return Object.assign({}, this.commonOption)
+  }
+
+  // Set request interceptor
+  public setRequestInterceptor = (
+    onFulfilled?: (config: AxiosRequestConfig) => AxiosRequestConfig,
+    onRejected?: (error: any) => any
+  ) => {
+    this.axios.interceptors.request.use(onFulfilled, onRejected)
+  }
+
+  // Set response interceptor
+  public setResponseInterceptor = (
+    onFulfilled?: (response: AxiosResponse) => AxiosResponse,
+    onRejected?: (error: any) => any
+  ) => {
+    this.axios.interceptors.response.use(onFulfilled, onRejected)
+  }
+
+  // Custom AxiosRequestConfig via merge
+  public setRequestConfig = (config: AxiosRequestConfig) => {
+    this.axios.defaults = Object.assign(this.axios.defaults, config)
+  }
+
+  /**
+   * get
+   * @method get
+   * The same as axios.get
+   * 返回值为any，是因为添加了拦截器，返回值为后端的 data
+   */
+  public get = (url: string, option?: AxiosRequestConfig): any => {
+    return this.axios.get(url, Object.assign({}, this.commonOption, option))
+  }
+
+  public put = (url: string, data?: any, option?: AxiosRequestConfig): any => {
+    return this.axios.put(
+      url,
+      data,
+      Object.assign({}, this.commonOption, option)
+    )
+  }
+
+  public post = (url: string, data?: any, option?: AxiosRequestConfig): any => {
+    return this.axios.post(
+      url,
+      data,
+      Object.assign({}, this.commonOption, option)
+    )
+  }
+
+  /**
+   * postFrom
+   * @method postForm
+   * post 发送表单的快捷方式
+   */
+  public postForm = (
+    url: string,
+    data?: any,
+    option?: AxiosRequestConfig
+  ): any => {
+    return this.post(url, data, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      transformRequest: [
+        ({ data }: { data: any }) => {
+          return qs.stringify(data)
+        }
+      ]
+    })
+  }
 }
 
-export default class AxiosRequest {
-  public requestHandle = (params: IParams) => {
-    return new Promise((resolve, reject) => {
-      request(params)
-        .then((res) => {
-          console.log(res)
-          resolve(res.data)
-        })
-        .catch((error) => {})
-    })
-  }
-
-  public post = (url: string, params: object | string, options = {}) => {
-    return this.requestHandle({
-      method: 'post',
-      url,
-      data: params,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      ...options
-    })
-  }
-
-  public get = (url: string, params: object | string, options = {}) => {
-    return this.requestHandle({
-      method: 'get',
-      url,
-      data: params,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      ...options
-    })
-  }
-}
+export default HttpClient

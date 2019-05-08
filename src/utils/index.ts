@@ -21,7 +21,11 @@ export const translateMarkdown = (plainText: any) => {
 
 // 获取 url query 参数
 export const decodeQuery = (url: string) => {
-  let params = {}
+  interface IParams {
+    page?: string
+    keyword?: string
+  }
+  let params: IParams = {}
   const paramsStr = url.replace(/\.*\?/, '') // a=1&b=2&c=&d=xxx&e
   paramsStr.split('&').forEach((v) => {
     const d = v.split('=')
