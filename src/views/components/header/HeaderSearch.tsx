@@ -3,17 +3,22 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:50:06
- * @LastEditTime: 2019-05-06 14:56:52
+ * @LastEditTime: 2019-05-09 19:35:44
  */
 
 import React from 'react'
+import { RouteComponentProps } from 'react-router'
+import { withRouter } from 'react-router-dom'
 import { Input, Icon, Row, Col } from 'antd'
 interface IHeaderSearchState {
   keyword: ''
 }
 
-class HeaderSearch extends React.Component<{}, IHeaderSearchState> {
-  constructor(props: any) {
+class HeaderSearch extends React.Component<
+  RouteComponentProps,
+  IHeaderSearchState
+> {
+  constructor(props: RouteComponentProps) {
     super(props)
     this.state = {
       keyword: ''
@@ -21,9 +26,15 @@ class HeaderSearch extends React.Component<{}, IHeaderSearchState> {
   }
 
   handleChange = (e: any) => this.setState({ keyword: e.target.value })
-  handleSubmit() {}
 
-  handlePressEnter() {}
+  handleSubmit = () => {
+    const keyword = this.state.keyword
+    if (keyword) this.props.history.push(`/?page=1&keyword=${keyword}`)
+  }
+
+  handlePressEnter(e: any) {
+    e.target.blur()
+  }
 
   public render() {
     return (
@@ -46,4 +57,4 @@ class HeaderSearch extends React.Component<{}, IHeaderSearchState> {
   }
 }
 
-export default HeaderSearch
+export default withRouter(HeaderSearch)

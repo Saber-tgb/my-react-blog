@@ -3,15 +3,26 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-05-08 19:00:50
+ * @LastEditTime: 2019-05-09 17:17:40
  */
+
 import React, { Fragment } from 'react'
-import { Icon, Divider } from 'antd'
+import { Icon, Divider, Drawer } from 'antd'
 import Loading from '@/views/components/loading/Loading'
 import Tags from '@/views/components/tags/Tags'
-import { getCommentsCount } from '@/utils'
+import ArticleNavigation from './ArticleNavigation'
+import { getArticleContent } from '@/api'
+import { translateMarkdown, getCommentsCount } from '@/utils'
 
-interface IArticleProps {}
+interface IArticleProps {
+  windowWidth: number
+  drawerVisible: boolean
+  openDrawer: any
+  closeDrawer: any
+  generateColorMap: any
+  history: any
+  match: any
+}
 
 interface IArticleStates {
   loading: boolean
@@ -37,6 +48,41 @@ class Article extends React.Component<IArticleProps, IArticleStates> {
     }
   }
 
+  // 获取文章内容
+  private fetchData = (id: number) => {
+    this.setState({ loading: true })
+    getArticleContent(id)
+      .then((res: any) => {
+        const content = translateMarkdown(res.data.content)
+        const { title, createdAt, tags, categories, comments } = res.data
+        this.props.generateColorMap(comments)
+        this.setState({
+          tags,
+          categories,
+          content,
+          title,
+          postTime: createdAt.slice(0, 10),
+          commentList: comments,
+          loading: false
+        })
+      })
+      .catch(() => {
+        this.props.history.push('/404')
+      })
+  }
+
+  componentDidMount() {
+    const id = this.props.match.params.id
+    this.fetchData(id)
+  }
+
+  componentWillReceiveProps(nextProps: any) {
+    if (nextProps.match.params.id !== this.props.match.params.id) {
+      const id = nextProps.match.params.id
+      this.fetchData(id)
+    }
+  }
+
   public render() {
     const {
       loading,
@@ -44,7 +90,8 @@ class Article extends React.Component<IArticleProps, IArticleStates> {
       postTime,
       tags,
       categories,
-      commentList
+      commentList,
+      content
     } = this.state
 
     return (
@@ -66,6 +113,41 @@ class Article extends React.Component<IArticleProps, IArticleStates> {
                 {getCommentsCount(commentList)}
               </div>
             </div>
+
+            <div
+              className="article-detail"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+
+            {/* 浏览器窗口宽度大于1300 */}
+            {this.props.windowWidth > 1300 ? (
+              <div className="right-navigation">
+                <ArticleNavigation content={content} />
+              </div>
+            ) : (
+              <Fragment>
+                <div className="drawer-btn" onClick={this.props.openDrawer}>
+                  <Icon type="menu-o" className="nav-phone-icon" />
+                </div>
+                <Drawer
+                  title={title}
+                  placement="right"
+                  closable={false}
+                  onClose={this.props.closeDrawer}
+                  visible={this.props.drawerVisible}
+                >
+                  <div className="right-navigation">
+                    <ArticleNavigation content={content} />
+                  </div>
+                </Drawer>
+              </Fragment>
+            )}
+
+            {/* <Comment
+              articleId={articleId}
+              commentList={commentList}
+              setCommentList={this.setCommentList}
+            /> */}
           </Fragment>
         )}
       </div>
@@ -74,3 +156,13 @@ class Article extends React.Component<IArticleProps, IArticleStates> {
 }
 
 export default Article
+
+// import React from 'react'
+
+// class Article extends React.Component {
+//   public render() {
+//     return <div>文章</div>
+//   }
+// }
+
+// export default Article

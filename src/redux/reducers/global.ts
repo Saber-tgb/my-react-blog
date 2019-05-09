@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-07 19:24:25
- * @LastEditTime: 2019-05-08 15:12:27
+ * @LastEditTime: 2019-05-09 15:35:43
  */
 
 import { IGlobalStates } from '@/constants/TypeConstants'
@@ -28,16 +28,24 @@ const defaultState: IGlobalStates = {
   ],
   colorMap: {},
   // 浏览器窗口宽度
-  windowWidth: 0
-  // loginModalVisible: false,
-  // registerModalVisible: false,
-
-  // drawerVisible: false
+  windowWidth: 0,
+  drawerVisible: false,
+  loginModalVisible: false,
+  registerModalVisible: false
 }
 
 const global = (state = defaultState, action: any) => {
   const { type, payload } = action
   switch (type) {
+    // 浏览器窗口宽度
+    case actionTypes.GLOBAL_GET_WINDOW_WIDTH:
+      return { ...state, windowWidth: payload }
+
+    case actionTypes.GLOBAL_OPEN_DRAWER:
+      return { ...state, drawerVisible: true }
+
+    case actionTypes.GLOBAL_CLOSE_DRAWER:
+      return { ...state, drawerVisible: false }
     // 标签颜色
     case actionTypes.GLOBAL_COLOR_MAP:
       const list = groupBy(payload, (item: any) => item.userId)
@@ -51,8 +59,6 @@ const global = (state = defaultState, action: any) => {
         })
       })
       return { ...state, colorMap }
-    case actionTypes.GLOBAL_GET_WINDOW_WIDTH:
-      return { ...state, windowWidth: payload }
     default:
       return state
   }

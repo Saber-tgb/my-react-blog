@@ -3,17 +3,18 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-05-08 18:46:24
+ * @LastEditTime: 2019-05-09 17:07:29
  */
 import React, { Fragment } from 'react'
 import { RouteComponentProps } from 'react-router'
 import { withRouter } from 'react-router-dom'
-import { Divider, Icon, Empty } from 'antd'
+import { Divider, Icon, Empty, Drawer } from 'antd'
 import { getArticleList } from '@/api'
 import { translateMarkdown, getCommentsCount, decodeQuery } from '@/utils'
 import Loading from '@/views/components/loading/Loading'
 import Tags from '@/views/components/tags/Tags'
 import BlogPagination from '@/views/components/blogPagination/BlogPagination'
+import Preview from '@/views/components/preview/Preview'
 
 interface INoDataDescProps {
   keyword?: string
@@ -29,6 +30,10 @@ type PathParamsType = {}
 
 type HomePropsType = RouteComponentProps<PathParamsType> & {
   navList: any[]
+  windowWidth: number
+  drawerVisible: boolean
+  openDrawer: any
+  closeDrawer: any
 }
 
 interface IHomeStates {
@@ -68,7 +73,9 @@ class Home extends React.Component<HomePropsType, IHomeStates> {
       .catch(() => this.setState({ loading: false }))
   }
   // 跳转文章详情
-  private jumpTo(id: number) {}
+  private jumpTo(id: number) {
+    this.props.history.push(`/article/${id}`)
+  }
 
   // 分页
   private handlePageChange = (page: number) => {
@@ -144,6 +151,25 @@ class Home extends React.Component<HomePropsType, IHomeStates> {
                     onChange={this.handlePageChange}
                     total={total}
                   />
+                )}
+                {/* 预览 */}
+                {this.props.windowWidth > 1300 ? (
+                  <Preview list={list} />
+                ) : (
+                  <Fragment>
+                    <div className="drawer-btn" onClick={this.props.openDrawer}>
+                      <Icon type="menu-o" className="nav-phone-icon" />
+                    </div>
+                    <Drawer
+                      title="文章导航"
+                      placement="right"
+                      closable={false}
+                      onClose={this.props.closeDrawer}
+                      visible={this.props.drawerVisible}
+                    >
+                      <Preview list={list} />
+                    </Drawer>
+                  </Fragment>
                 )}
               </Fragment>
             ) : (

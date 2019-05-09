@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-07 14:50:45
- * @LastEditTime: 2019-05-08 17:31:49
+ * @LastEditTime: 2019-05-09 10:49:58
  */
 
 import Axios, {
@@ -114,7 +114,6 @@ class HttpClient {
     params?: any,
     option?: AxiosRequestConfig
   ): any => {
-    console.log(option)
     return this.axios.get(
       url,
       Object.assign({ params }, this.commonOption, option)

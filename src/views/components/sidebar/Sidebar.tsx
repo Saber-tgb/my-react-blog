@@ -3,13 +3,15 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 14:43:30
- * @LastEditTime: 2019-04-29 15:22:57
+ * @LastEditTime: 2019-05-09 11:23:08
  */
 
 import React from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Divider, Tag, Icon } from 'antd'
 import { AuthorAvatar } from '@/constants/PictureConstants'
+import { getArticleList } from '@/api'
 import './Sidebar.less'
 
 function random(colorList: any[]) {
@@ -32,6 +34,19 @@ class Sidebar extends React.Component<ISiderbarProps, ISidebarState> {
       recentArticleList: [] // 最近文章
     }
   }
+
+  // 获取文章列表
+  _getArticleList() {
+    const params = { page: 1, pageSize: 6 }
+    getArticleList(params).then((res: any) => {
+      this.setState({ recentArticleList: res.rows })
+    })
+  }
+
+  componentDidMount() {
+    this._getArticleList()
+  }
+
   public render() {
     const { tagList, colorList } = this.props
     const { recentArticleList } = this.state
@@ -85,4 +100,10 @@ class Sidebar extends React.Component<ISiderbarProps, ISidebarState> {
     )
   }
 }
-export default Sidebar
+
+const mapStateToProps = (state: any) => ({
+  tagList: state.article.tagList,
+  colorList: state.global.colorList
+})
+
+export default connect(mapStateToProps)(Sidebar)

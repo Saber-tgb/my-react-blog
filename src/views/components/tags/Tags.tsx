@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-07 17:47:34
- * @LastEditTime: 2019-05-08 14:48:16
+ * @LastEditTime: 2019-05-09 17:38:16
  */
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
@@ -34,7 +34,7 @@ class Tags extends React.Component<ITagsProps> {
           list.map((item, i) => (
             <Tag
               color={type === 'tags' && colorList ? colorList[i] : '#2db7f5'}
-              key={item.name}
+              key={`${item.name}${i}`}
             >
               <Link to={`/${type}/${item.name}`}>{item.name}</Link>
             </Tag>

@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-05-06 15:04:48
+ * @LastEditTime: 2019-05-09 17:45:35
  */
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
@@ -27,7 +27,7 @@ class BlogLayout extends React.Component<PropsType> {
         <Header />
         <Row className="main-wrapper">
           <Col {...siderLayout}>
-            <SideBar tagList={[]} colorList={[]} />
+            <SideBar />
           </Col>
           <Col {...contentLayout}>
             <div className="content-wrapper">
@@ -35,7 +35,9 @@ class BlogLayout extends React.Component<PropsType> {
             </div>
           </Col>
         </Row>
-        <BackTop />
+        <BackTop
+          target={(): any => document.querySelector('.content-wrapper')}
+        />
       </Layout>
     )
   }

@@ -3,14 +3,15 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 15:37:03
- * @LastEditTime: 2019-05-06 19:17:42
+ * @LastEditTime: 2019-05-09 16:32:14
  */
 import { connect } from 'react-redux'
 import Home from './components/Home'
 
 const mapStateToProps = (state: any) => {
   return {
-    props: state.props
+    drawerVisible: state.global.drawerVisible,
+    windowWidth: state.global.windowWidth
   }
 }
 const mapDispatchToProps = (dispatch: any) => {

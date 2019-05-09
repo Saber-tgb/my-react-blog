@@ -3,27 +3,18 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 15:37:03
- * @LastEditTime: 2019-05-08 19:20:11
+ * @LastEditTime: 2019-05-09 10:29:50
  */
 import { connect } from 'react-redux'
 import Home from './components/Archives'
 
 const mapStateToProps = (state: any) => {
   return {
-    prop: state.prop
-  }
-}
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    dispatch1: () => {
-      dispatch()
-    }
+    categoryList: state.article.categoryList,
+    colorList: state.global.colorList
   }
 }
 
-const HomeContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home)
+const HomeContainer = connect(mapStateToProps)(Home)
 
 export default HomeContainer

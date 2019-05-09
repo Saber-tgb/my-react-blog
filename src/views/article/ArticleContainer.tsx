@@ -3,27 +3,39 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 15:37:03
- * @LastEditTime: 2019-04-29 16:18:11
+ * @LastEditTime: 2019-05-09 15:52:53
  */
 import { connect } from 'react-redux'
-import Home from './components/Article'
+import Article from './components/Article'
+import {
+  openDrawer,
+  closeDrawer,
+  generateColorMap
+} from '@/redux/actions/global'
 
 const mapStateToProps = (state: any) => {
   return {
-    prop: state.prop
+    windowWidth: state.global.windowWidth,
+    drawerVisible: state.global.drawerVisible
   }
 }
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatch1: () => {
-      dispatch()
+    openDrawer: () => {
+      dispatch(openDrawer())
+    },
+    closeDrawer: () => {
+      dispatch(closeDrawer())
+    },
+    generateColorMap: (commentList: any) => {
+      dispatch(generateColorMap(commentList))
     }
   }
 }
 
-const HomeContainer = connect(
+const ArticleContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home)
+)(Article)
 
-export default HomeContainer
+export default ArticleContainer

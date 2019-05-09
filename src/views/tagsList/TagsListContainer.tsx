@@ -3,10 +3,10 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 15:37:03
- * @LastEditTime: 2019-04-29 17:48:48
+ * @LastEditTime: 2019-05-09 14:57:24
  */
 import { connect } from 'react-redux'
-import List from './components/List'
+import TagsList from './components/TagsList'
 
 const mapStateToProps = (state: any) => {
   return {
@@ -21,9 +21,9 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 }
 
-const ListContainer = connect(
+const TagsListContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(List)
+)(TagsList)
 
-export default ListContainer
+export default TagsListContainer

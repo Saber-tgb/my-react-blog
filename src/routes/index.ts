@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 15:47:40
- * @LastEditTime: 2019-04-29 17:53:22
+ * @LastEditTime: 2019-05-09 17:10:21
  */
 // 首页
 import Home from '@/views/home/HomeContainer'
@@ -13,17 +13,18 @@ import Article from '@/views/article/ArticleContainer'
 import Archives from '@/views/archives/ArchivesContainer'
 // 分类
 import Categories from '@/views/categories/CategoriesContainer'
-// 列表
-import List from '@/views/list/ListContainer'
 // 关于
 import About from '@/views/about/AboutContainer'
+// 标签列表
+import TagsList from '@/views/tagsList/TagsListContainer'
 
 export default [
   { path: '', component: Home },
   { path: 'article', component: Article },
+  { path: 'article/:id', component: Article },
   { path: 'archives', component: Archives },
   { path: 'categories', component: Categories },
-  { path: 'categories/:name', component: List },
-  { path: 'tags/:name', component: List },
+  { path: 'categories/:name', component: TagsList },
+  { path: 'tags/:name', component: TagsList },
   { path: 'about', component: About }
 ]
