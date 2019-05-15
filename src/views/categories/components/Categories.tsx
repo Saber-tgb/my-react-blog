@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-05-09 10:27:16
+ * @LastEditTime: 2019-05-15 15:47:40
  */
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -17,7 +17,6 @@ interface ICategoriesProps {
 class Categories extends React.Component<ICategoriesProps> {
   public render() {
     const { categoryList, colorList } = this.props
-    console.log(categoryList)
     return (
       <div className="content-inner-wrapper categories">
         <h2 className="title">Categories</h2>

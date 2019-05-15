@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 15:47:40
- * @LastEditTime: 2019-05-09 17:10:21
+ * @LastEditTime: 2019-05-15 11:17:48
  */
 // 首页
 import Home from '@/views/home/HomeContainer'
@@ -17,6 +17,8 @@ import Categories from '@/views/categories/CategoriesContainer'
 import About from '@/views/about/AboutContainer'
 // 标签列表
 import TagsList from '@/views/tagsList/TagsListContainer'
+// 404
+import NotFound from '@/views/other/NotFound'
 
 export default [
   { path: '', component: Home },
@@ -26,5 +28,6 @@ export default [
   { path: 'categories', component: Categories },
   { path: 'categories/:name', component: TagsList },
   { path: 'tags/:name', component: TagsList },
-  { path: 'about', component: About }
+  { path: 'about', component: About },
+  { path: '*', component: NotFound }
 ]

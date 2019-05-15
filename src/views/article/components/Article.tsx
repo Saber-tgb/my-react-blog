@@ -3,13 +3,14 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-05-09 17:17:40
+ * @LastEditTime: 2019-05-15 17:54:44
  */
 
 import React, { Fragment } from 'react'
 import { Icon, Divider, Drawer } from 'antd'
-import Loading from '@/views/components/loading/Loading'
-import Tags from '@/views/components/tags/Tags'
+import Loading from '@/components/loading/Loading'
+import Tags from '@/components/tags/Tags'
+import Comment from '@/components/comment/Comment'
 import ArticleNavigation from './ArticleNavigation'
 import { getArticleContent } from '@/api'
 import { translateMarkdown, getCommentsCount } from '@/utils'
@@ -71,6 +72,9 @@ class Article extends React.Component<IArticleProps, IArticleStates> {
       })
   }
 
+  private setCommentList = (commentList: any[]) =>
+    this.setState({ commentList })
+
   componentDidMount() {
     const id = this.props.match.params.id
     this.fetchData(id)
@@ -93,6 +97,7 @@ class Article extends React.Component<IArticleProps, IArticleStates> {
       commentList,
       content
     } = this.state
+    const articleId = parseInt(this.props.match.params.id)
 
     return (
       <div className="content-inner-wrapper article">
@@ -143,11 +148,11 @@ class Article extends React.Component<IArticleProps, IArticleStates> {
               </Fragment>
             )}
 
-            {/* <Comment
+            <Comment
               articleId={articleId}
               commentList={commentList}
               setCommentList={this.setCommentList}
-            /> */}
+            />
           </Fragment>
         )}
       </div>

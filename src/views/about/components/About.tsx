@@ -3,13 +3,41 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-05-06 17:28:59
+ * @LastEditTime: 2019-05-10 18:34:47
  */
 import React from 'react'
 import { Divider, Rate, Icon } from 'antd'
-import AuthorAvatar from '@/views/components/authorAvatar/AuthorAvatar'
+import AuthorAvatar from '@/components/authorAvatar/AuthorAvatar'
+import Comment from '@/components/comment/Comment'
+import { getAboutComments } from '@/api'
 
-class Home extends React.Component {
+interface IAboutProps {
+  generateColorMap: any
+}
+interface IAboutStats {
+  commentList: any[]
+}
+
+class About extends React.Component<IAboutProps, IAboutStats> {
+  constructor(props: IAboutProps) {
+    super(props)
+    this.state = {
+      commentList: []
+    }
+  }
+  fetchList = () => {
+    getAboutComments().then((res: any) => {
+      this.props.generateColorMap(res.rows) // 生成头像的颜色匹配
+      this.setState({ commentList: res.rows })
+    })
+  }
+
+  setCommentList = (commentList: any[]) => this.setState({ commentList })
+
+  componentDidMount() {
+    this.fetchList()
+  }
+
   public render() {
     return (
       <div className="content-inner-wrapper about">
@@ -99,9 +127,15 @@ class Home extends React.Component {
             </ul>
           </li>
         </ul>
+
+        <Comment
+          articleId={-1}
+          commentList={this.state.commentList}
+          setCommentList={this.setCommentList}
+        />
       </div>
     )
   }
 }
 
-export default Home
+export default About

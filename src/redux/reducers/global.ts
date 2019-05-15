@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-07 19:24:25
- * @LastEditTime: 2019-05-09 15:35:43
+ * @LastEditTime: 2019-05-10 17:26:31
  */
 
 import { IGlobalStates } from '@/constants/TypeConstants'
@@ -30,13 +30,21 @@ const defaultState: IGlobalStates = {
   // 浏览器窗口宽度
   windowWidth: 0,
   drawerVisible: false,
+  // 登录框显示隐藏
   loginModalVisible: false,
+  // 注册框显示隐藏
   registerModalVisible: false
 }
 
 const global = (state = defaultState, action: any) => {
   const { type, payload } = action
   switch (type) {
+    // 显示登录注册框
+    case actionTypes.AUTH_OPEN_AUTHMODAL:
+      return { ...state, [`${payload}ModalVisible`]: true }
+    // 关闭登录注册框
+    case actionTypes.AUTH_CLOSE_AUTHMODAL:
+      return { ...state, [`${payload}ModalVisible`]: false }
     // 浏览器窗口宽度
     case actionTypes.GLOBAL_GET_WINDOW_WIDTH:
       return { ...state, windowWidth: payload }

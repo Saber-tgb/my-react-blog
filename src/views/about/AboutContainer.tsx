@@ -3,10 +3,11 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 15:37:03
- * @LastEditTime: 2019-04-29 17:51:09
+ * @LastEditTime: 2019-05-10 16:00:44
  */
 import { connect } from 'react-redux'
 import About from './components/About'
+import { generateColorMap } from '@/redux/actions/global'
 
 const mapStateToProps = (state: any) => {
   return {
@@ -15,8 +16,8 @@ const mapStateToProps = (state: any) => {
 }
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    dispatch1: () => {
-      dispatch()
+    generateColorMap: (commentList: any) => {
+      dispatch(generateColorMap(commentList))
     }
   }
 }

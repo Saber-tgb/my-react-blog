@@ -16,7 +16,14 @@ const config = {
 const HttpClient = new HTTPClient(commonOption, config)
 
 // 登录
+export const postLogin = (data: any) => {
+  return HttpClient.post(ApiConstants.POST_LOGIN, data)
+}
+
 // 注册
+export const postRegister = (data: any) => {
+  return HttpClient.post(ApiConstants.POST_REGISTER, data)
+}
 
 // 获取标签列表
 export const getTagsList = () => {
@@ -24,8 +31,8 @@ export const getTagsList = () => {
 }
 
 // 获取博客列表
-export const getArticleList = (data: any) => {
-  return HttpClient.get(ApiConstants.GET_ARTICLE_LIST, data)
+export const getArticleList = (params: any) => {
+  return HttpClient.get(ApiConstants.GET_ARTICLE_LIST, params)
 }
 
 // 获取文章内容
@@ -39,6 +46,31 @@ export const getCategoriesList = () => {
 }
 
 // 获取标签列表
-export const getTagsArticlesList = (data: any) => {
-  return HttpClient.get(ApiConstants.GET_TAGS_ARTICLES_LIST, data)
+export const getTagsArticlesList = (params: any) => {
+  return HttpClient.get(ApiConstants.GET_TAGS_ARTICLES_LIST, params)
+}
+
+// 用户提交评论
+export const postUserComment = (data: any) => {
+  return HttpClient.post(ApiConstants.POST_USER_COMMENT, data)
+}
+
+// 用户答复评论
+export const postUserReply = (data: any) => {
+  return HttpClient.post(ApiConstants.POST_USER_REPLY, data)
+}
+
+// 删除用户评论
+export const deleteUserComment = (data: any) => {
+  return HttpClient.post(ApiConstants.DELETE_COMMENT_DEL, data)
+}
+
+// 删除用户答复
+export const deleteUserReply = (data: any) => {
+  return HttpClient.post(ApiConstants.DELETE_REPLY_DEL, data)
+}
+
+// 获取关于页面评论
+export const getAboutComments = () => {
+  return HttpClient.get(ApiConstants.GET_ABOUT_COMMENTS)
 }

@@ -3,12 +3,12 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-05-08 19:31:48
+ * @LastEditTime: 2019-05-10 18:34:45
  */
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Timeline, Icon, Spin } from 'antd'
-import BlogPagination from '@/views/components/blogPagination/BlogPagination'
+import BlogPagination from '@/components/blogPagination/BlogPagination'
 import { getArticleList } from '@/api'
 import { groupBy } from '@/utils'
 

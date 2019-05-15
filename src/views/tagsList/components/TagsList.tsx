@@ -3,12 +3,12 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-05-09 14:56:16
+ * @LastEditTime: 2019-05-10 18:34:44
  */
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Timeline, Spin } from 'antd'
-import BlogPagination from '@/views/components/blogPagination/BlogPagination'
+import BlogPagination from '@/components/blogPagination/BlogPagination'
 import { getTagsArticlesList } from '@/api'
 
 const TimeLineList = ({ list, name, type }: any) => {

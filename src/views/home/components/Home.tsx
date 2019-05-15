@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-05-09 17:07:29
+ * @LastEditTime: 2019-05-10 18:34:36
  */
 import React, { Fragment } from 'react'
 import { RouteComponentProps } from 'react-router'
@@ -11,10 +11,10 @@ import { withRouter } from 'react-router-dom'
 import { Divider, Icon, Empty, Drawer } from 'antd'
 import { getArticleList } from '@/api'
 import { translateMarkdown, getCommentsCount, decodeQuery } from '@/utils'
-import Loading from '@/views/components/loading/Loading'
-import Tags from '@/views/components/tags/Tags'
-import BlogPagination from '@/views/components/blogPagination/BlogPagination'
-import Preview from '@/views/components/preview/Preview'
+import Loading from '@/components/loading/Loading'
+import Tags from '@/components/tags/Tags'
+import BlogPagination from '@/components/blogPagination/BlogPagination'
+import Preview from '@/components/preview/Preview'
 
 interface INoDataDescProps {
   keyword?: string

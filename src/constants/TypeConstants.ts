@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-07 19:32:34
- * @LastEditTime: 2019-05-09 15:21:21
+ * @LastEditTime: 2019-05-10 14:25:42
  */
 
 export interface IGlobalStates {
@@ -13,6 +13,13 @@ export interface IGlobalStates {
   drawerVisible: boolean
   loginModalVisible: boolean
   registerModalVisible: boolean
+}
+
+export interface IUserStates {
+  userId: number
+  username: string
+  auth: number
+  avatarColor: string
 }
 
 export interface IArticleStates {

@@ -9,8 +9,8 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import { withRouter } from 'react-router-dom'
 import { Layout, Row, Col, BackTop } from 'antd'
-import Header from '@/views/components/header/Header'
-import SideBar from '@/views/components/sidebar/Sidebar'
+import Header from '@/components/header/Header'
+import SideBar from '@/components/sidebar/Sidebar'
 import LayoutRoute from './LayoutRoute'
 
 type PathParamsType = {}
