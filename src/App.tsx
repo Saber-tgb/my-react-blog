@@ -3,13 +3,14 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-07 14:50:45
- * @LastEditTime: 2019-05-15 16:17:58
+ * @LastEditTime: 2019-05-16 10:43:24
  */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import * as RouteConstant from '@/constants/RouteConstants'
 import LayoutContainer from '@/views/layout/LayoutContainer'
+import AdminLayoutContainer from '@/views/admin/layout/AdminLayoutContainer'
 import { getTagsList, getCategoriesList } from '@/redux/actions/article'
 import { getWindowWidth } from '@/redux/actions/global'
 
@@ -31,6 +32,10 @@ class App extends Component<IAppProps> {
       <BrowserRouter>
         <Switch>
           <Route exact={true} path="/" component={LayoutContainer} />
+          <Route
+            path={RouteConstant.ADMIN_PATH}
+            component={AdminLayoutContainer}
+          />
           <Route path={RouteConstant.WEB_PATH} component={LayoutContainer} />
           <Redirect to={RouteConstant.NOT_FOUNT_PATH} />
         </Switch>

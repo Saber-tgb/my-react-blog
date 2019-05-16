@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-06 17:59:49
- * @LastEditTime: 2019-05-10 15:56:57
+ * @LastEditTime: 2019-05-16 17:59:47
  */
 
 // 登录
@@ -30,3 +30,7 @@ export const DELETE_COMMENT_DEL = 'comment/del'
 export const DELETE_REPLY_DEL = 'reply/del'
 // 获取关于页面评论
 export const GET_ABOUT_COMMENTS = 'comment/getAboutComments'
+// 获取用户列表
+export const GET_USER_List = 'user/getUserList'
+// 删除注册用户
+export const DELETE_USER = 'user/delete'

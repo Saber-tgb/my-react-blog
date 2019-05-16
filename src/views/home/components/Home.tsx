@@ -5,104 +5,104 @@
  * @Date: 2019-04-29 09:27:21
  * @LastEditTime: 2019-05-10 18:34:36
  */
-import React, { Fragment } from 'react'
-import { RouteComponentProps } from 'react-router'
-import { withRouter } from 'react-router-dom'
-import { Divider, Icon, Empty, Drawer } from 'antd'
-import { getArticleList } from '@/api'
-import { translateMarkdown, getCommentsCount, decodeQuery } from '@/utils'
-import Loading from '@/components/loading/Loading'
-import Tags from '@/components/tags/Tags'
-import BlogPagination from '@/components/blogPagination/BlogPagination'
-import Preview from '@/components/preview/Preview'
+import React, { Fragment } from 'react';
+import { RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router-dom';
+import { Divider, Icon, Empty, Drawer } from 'antd';
+import { getArticleList } from '@/api';
+import { translateMarkdown, getCommentsCount, decodeQuery } from '@/utils';
+import Loading from '@/components/loading/Loading';
+import Tags from '@/components/tags/Tags';
+import BlogPagination from '@/components/blogPagination/BlogPagination';
+import Preview from '@/components/preview/Preview';
 
 interface INoDataDescProps {
-  keyword?: string
+  keyword?: string;
 }
 
 const NoDataDesc: React.FC<INoDataDescProps> = (props) => (
   <Fragment>
     不存在标题中含有 <span className="keyword">{props.keyword}</span> 的文章！
   </Fragment>
-)
+);
 
-type PathParamsType = {}
+type PathParamsType = {};
 
 type HomePropsType = RouteComponentProps<PathParamsType> & {
-  navList: any[]
-  windowWidth: number
-  drawerVisible: boolean
-  openDrawer: any
-  closeDrawer: any
-}
+  navList: any[];
+  windowWidth: number;
+  drawerVisible: boolean;
+  openDrawer: any;
+  closeDrawer: any;
+};
 
 interface IHomeStates {
-  list: any[]
-  total: number
-  loading: boolean
+  list: any[];
+  total: number;
+  loading: boolean;
 }
 
 class Home extends React.Component<HomePropsType, IHomeStates> {
   constructor(props: HomePropsType) {
-    super(props)
+    super(props);
     this.state = {
       list: [],
       total: 0,
-      loading: false
-    }
+      loading: false,
+    };
   }
 
   // 获取文章列表
   private _getArticleList({ page, keyword }: any) {
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     const params = {
       page,
       pageSize: 10,
-      title: keyword
-    }
+      title: keyword,
+    };
     getArticleList(params)
       .then((res: any) => {
-        const list = res.rows
+        const list = res.rows;
         // 处理 read more 的内容
         list.forEach((item: any) => {
-          let index = item.content.indexOf('<!--more-->')
-          item.description = translateMarkdown(item.content.slice(0, index))
-        })
-        this.setState({ list, total: res.count, loading: false })
+          let index = item.content.indexOf('<!--more-->');
+          item.description = translateMarkdown(item.content.slice(0, index));
+        });
+        this.setState({ list, total: res.count, loading: false });
       })
-      .catch(() => this.setState({ loading: false }))
+      .catch(() => this.setState({ loading: false }));
   }
   // 跳转文章详情
   private jumpTo(id: number) {
-    this.props.history.push(`/article/${id}`)
+    this.props.history.push(`/article/${id}`);
   }
 
   // 分页
   private handlePageChange = (page: number) => {
     // document.querySelector('.content-wrapper').scrollTop = 0
-    let params = { ...decodeQuery(this.props.location.search), page }
-    let url = ''
-    Object.entries(params).forEach((item) => {
-      url = !url ? `?${item[0]}=${item[1]}` : `${url}&${item[0]}=${item[1]}`
-    })
-    this.props.history.push(url)
-  }
+    let params = { ...decodeQuery(this.props.location.search), page };
+    let url = '';
+    Object.entries(params).forEach((item: any) => {
+      url = !url ? `?${item[0]}=${item[1]}` : `${url}&${item[0]}=${item[1]}`;
+    });
+    this.props.history.push(url);
+  };
 
   componentDidMount() {
-    const params = decodeQuery(this.props.location.search)
-    this._getArticleList(params)
+    const params = decodeQuery(this.props.location.search);
+    this._getArticleList(params);
   }
 
   componentWillReceiveProps(nextProps: any) {
     if (this.props.location.search !== nextProps.location.search) {
-      const params = decodeQuery(nextProps.location.search)
-      this._getArticleList(params)
+      const params = decodeQuery(nextProps.location.search);
+      this._getArticleList(params);
     }
   }
 
   public render() {
-    const { list, total, loading } = this.state
-    const { page, keyword } = decodeQuery(this.props.location.search)
+    const { list, total, loading } = this.state;
+    const { page, keyword } = decodeQuery(this.props.location.search);
     return (
       <div className="content-inner-wrapper home">
         {loading ? (
@@ -181,8 +181,8 @@ class Home extends React.Component<HomePropsType, IHomeStates> {
           </Fragment>
         )}
       </div>
-    )
+    );
   }
 }
 
-export default withRouter(Home)
+export default withRouter(Home);

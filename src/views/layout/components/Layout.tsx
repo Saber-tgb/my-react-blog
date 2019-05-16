@@ -1,9 +1,9 @@
 /*
- * @Description: 博客主题UI组件
+ * @Description: 博客布局主体
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 09:27:21
- * @LastEditTime: 2019-05-09 17:45:35
+ * @LastEditTime: 2019-05-16 10:38:22
  */
 import React from 'react'
 import { RouteComponentProps } from 'react-router'

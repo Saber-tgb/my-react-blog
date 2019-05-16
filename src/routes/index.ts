@@ -3,8 +3,19 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-04-29 15:47:40
- * @LastEditTime: 2019-05-15 11:17:48
+ * @LastEditTime: 2019-05-16 10:44:32
  */
+
+import {
+  WEB_ARTICLE_PATH,
+  WEB_ARTICLE_ID_PATH,
+  WEB_ARCHIVES_PATH,
+  WEB_CATEGORIES_PATH,
+  WEB_CATEGORIES_NAME_PATH,
+  WEB_TAGS_NAME_PATH,
+  WEB_ABOUT_PATH,
+  NOT_FOUNT_PATH
+} from '@/constants/RouteConstants'
 // 首页
 import Home from '@/views/home/HomeContainer'
 // 文章
@@ -22,12 +33,13 @@ import NotFound from '@/views/other/NotFound'
 
 export default [
   { path: '', component: Home },
-  { path: 'article', component: Article },
-  { path: 'article/:id', component: Article },
-  { path: 'archives', component: Archives },
-  { path: 'categories', component: Categories },
-  { path: 'categories/:name', component: TagsList },
-  { path: 'tags/:name', component: TagsList },
-  { path: 'about', component: About },
+  { path: WEB_ARTICLE_PATH, component: Article },
+  { path: WEB_ARTICLE_ID_PATH, component: Article },
+  { path: WEB_ARCHIVES_PATH, component: Archives },
+  { path: WEB_CATEGORIES_PATH, component: Categories },
+  { path: WEB_CATEGORIES_NAME_PATH, component: TagsList },
+  { path: WEB_TAGS_NAME_PATH, component: TagsList },
+  { path: WEB_ABOUT_PATH, component: About },
+  { path: NOT_FOUNT_PATH, component: NotFound },
   { path: '*', component: NotFound }
 ]

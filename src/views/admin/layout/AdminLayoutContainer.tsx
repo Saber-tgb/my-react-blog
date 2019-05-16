@@ -1,12 +1,13 @@
 /*
- * @Description: 博客布局主体容器
+ * @Description: Admin管理后台布局主体容器
  * @Author: tgb
+ * @Date: 2019-05-16 10:34:14
  * @LastEditors: tgb
- * @Date: 2019-04-28 16:01:28
- * @LastEditTime: 2019-05-16 10:38:18
+ * @LastEditTime: 2019-05-16 10:37:39
  */
+
 import { connect } from 'react-redux'
-import Layout from './components/Layout'
+import AdminLayout from './components/AdminLayout'
 
 const mapStateToProps = (state: any) => {
   return {
@@ -21,9 +22,9 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 }
 
-const HomeContainer = connect(
+const AdminLayoutContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Layout)
+)(AdminLayout)
 
-export default HomeContainer
+export default AdminLayoutContainer

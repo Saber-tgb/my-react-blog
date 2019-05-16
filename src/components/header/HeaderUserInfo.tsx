@@ -5,19 +5,19 @@
  * @Date: 2019-04-29 09:50:44
  * @LastEditTime: 2019-05-15 17:12:57
  */
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { Menu, Button, Dropdown, Avatar } from 'antd'
-import AuthModal from '@/components/AuthModal/AuthModal'
-import { openAuthModal } from '@/redux/actions/global'
-import { register, logout } from '@/redux/actions/user'
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { Menu, Button, Dropdown, Avatar } from 'antd';
+import AuthModal from '@/components/authModal/AuthModal';
+import { openAuthModal } from '@/redux/actions/global';
+import { register, logout } from '@/redux/actions/user';
 
 interface IHeaderUserInfoProps {
-  openAuthModal: any
-  register: any
-  logout: any
-  username: string
-  avatarColor: string
+  openAuthModal: any;
+  register: any;
+  logout: any;
+  username: string;
+  avatarColor: string;
 }
 interface IHeaderUserInfoStates {}
 
@@ -34,10 +34,10 @@ class HeaderUserInfo extends React.Component<
           </span>
         </Menu.Item>
       </Menu>
-    )
-  }
+    );
+  };
   public render() {
-    const { username, avatarColor } = this.props
+    const { username, avatarColor } = this.props;
 
     return (
       <div className="header-userInfo">
@@ -79,33 +79,33 @@ class HeaderUserInfo extends React.Component<
 
         <AuthModal />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state: any) => ({
   username: state.user.username,
-  avatarColor: state.user.avatarColor
-})
+  avatarColor: state.user.avatarColor,
+});
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     openAuthModal: (type: any) => {
-      dispatch(openAuthModal(type))
+      dispatch(openAuthModal(type));
     },
     register: (username: string, password: string) => {
-      dispatch(register(username, password))
+      dispatch(register(username, password));
     },
     logout: () => {
-      dispatch(logout())
-    }
+      dispatch(logout());
+    },
     // openAuthModal,
     // register,
     // logout
-  }
-}
+  };
+};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(HeaderUserInfo)
+  mapDispatchToProps,
+)(HeaderUserInfo);
