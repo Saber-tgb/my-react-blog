@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-06 17:59:49
- * @LastEditTime: 2019-05-16 17:59:47
+ * @LastEditTime: 2019-05-17 14:37:55
  */
 
 // 登录
@@ -30,6 +30,14 @@ export const DELETE_COMMENT_DEL = 'comment/del'
 export const DELETE_REPLY_DEL = 'reply/del'
 // 获取关于页面评论
 export const GET_ABOUT_COMMENTS = 'comment/getAboutComments'
+
+// ------------------------ admin后台管理 ------------------------
+// 创建文章
+export const POST_ARTICLE_CREATE = 'article/create'
+// 更新文章
+export const POST_ARTICLE_UPDATE = 'article/update'
+// 删除文章
+export const delete_article = 'article/delete'
 // 获取用户列表
 export const GET_USER_List = 'user/getUserList'
 // 删除注册用户

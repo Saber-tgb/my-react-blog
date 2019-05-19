@@ -3,23 +3,20 @@
  * @Author: tgb
  * @Date: 2019-05-16 16:54:49
  * @LastEditors: tgb
- * @LastEditTime: 2019-05-16 18:43:38
+ * @LastEditTime: 2019-05-17 09:47:48
  */
 
-import React from 'react';
-import { connect } from 'react-redux';
-import { Button, Form, Input } from 'antd';
-import { FormComponentProps } from 'antd/es/form';
-import FormBuilder from '@/components/helper/FormBuilder';
+import React from 'react'
+import { connect } from 'react-redux'
+import { Button, Form, Input } from 'antd'
+import { FormComponentProps } from 'antd/es/form'
+import FormBuilder from '@/components/helper/FormBuilder'
 
 interface IQueryFormProps extends FormComponentProps {
-  getQuery: any;
+  getQuery: any
 }
 
 class QueryForm extends React.Component<IQueryFormProps> {
-  constructor(props: IQueryFormProps) {
-    super(props);
-  }
   private getFormMeta = () => {
     return {
       colon: true,
@@ -27,20 +24,20 @@ class QueryForm extends React.Component<IQueryFormProps> {
         {
           key: 'username',
           label: '姓名',
-          widget: <Input placeholder="请输入姓名" />,
-        },
-      ],
-    };
-  };
+          widget: <Input placeholder="请输入姓名" />
+        }
+      ]
+    }
+  }
 
   private handleSubmit = (e: any) => {
-    e.preventDefault();
+    e.preventDefault()
     this.props.form.validateFieldsAndScroll((errors: any, values: string) => {
-      if (errors) return;
-      console.log('submit form: ', values);
-      this.props.getQuery(values);
-    });
-  };
+      if (errors) return
+      console.log('submit form: ', values)
+      this.props.getQuery(values)
+    })
+  }
 
   public render() {
     return (
@@ -53,15 +50,15 @@ class QueryForm extends React.Component<IQueryFormProps> {
           </FormBuilder>
         </Form>
       </div>
-    );
+    )
   }
 }
 const mapStateToProps = (state: any) => {
   return {
-    prop: state.article,
-  };
-};
+    prop: state.article
+  }
+}
 
 export default connect(mapStateToProps)(
-  Form.create<IQueryFormProps>()(QueryForm),
-);
+  Form.create<IQueryFormProps>()(QueryForm)
+)

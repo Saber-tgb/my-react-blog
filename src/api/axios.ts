@@ -3,7 +3,7 @@
  * @Author: tgb
  * @LastEditors: tgb
  * @Date: 2019-05-07 14:50:45
- * @LastEditTime: 2019-05-09 10:49:58
+ * @LastEditTime: 2019-05-17 09:50:17
  */
 
 import Axios, {
@@ -140,6 +140,23 @@ class HttpClient {
         }
       ]
     })
+  }
+
+  /**
+   * delete
+   * @method delete
+   * The same as axios.delete
+   * 返回值为any
+   */
+  public delete = (
+    url: string,
+    params?: any,
+    option?: AxiosRequestConfig
+  ): any => {
+    return this.axios.delete(
+      url,
+      Object.assign({ params }, this.commonOption, option)
+    )
   }
 }
 

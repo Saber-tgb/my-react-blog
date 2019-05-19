@@ -3,7 +3,7 @@
  * @Author: tgb
  * @Date: 2019-05-16 15:23:06
  * @LastEditors: tgb
- * @LastEditTime: 2019-05-16 15:24:01
+ * @LastEditTime: 2019-05-17 14:52:12
  */
 .admin-container {
   .admin-header-container {
@@ -20,6 +20,44 @@
       float: right;
       line-height: 64px;
       margin-right: 10px;
+    }
+  }
+  // 编辑文章
+  .blog-formItem {
+    line-height: 36px;
+    .label {
+      display: inline-block;
+      width: 80px;
+      text-align: right;
+      padding-right: 5px;
+      text-transform: capitalize; // 首字母大写
+      font-weight: bold;
+    }
+    .title-input {
+      display: inline-block;
+      width: calc(100% - 80px);
+    }
+  }
+
+  .CodeMirror-scroll {
+    min-height: 500px;
+  }
+  // 管理文章
+  .manager {
+    .btn-edit {
+      cursor: pointer;
+      color: #1890ff;
+    }
+    .btn-delete {
+      cursor: pointer;
+      color: #f00;
+    }
+  }
+
+  .query-form {
+    margin-bottom: 20px;
+    .form-select {
+      min-width: 140px;
     }
   }
 }

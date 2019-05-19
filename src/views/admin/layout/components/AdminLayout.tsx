@@ -3,7 +3,7 @@
  * @Author: tgb
  * @Date: 2019-05-16 10:35:11
  * @LastEditors: tgb
- * @LastEditTime: 2019-05-16 16:01:39
+ * @LastEditTime: 2019-05-17 10:38:49
  */
 
 import React from 'react'
@@ -14,7 +14,7 @@ import AdminHeader from './AdminHeader'
 import AdminSideBarNav from './AdminSideBarNav'
 import AdminRoutes from './AdminRoutes'
 
-const { Sider, Header, Content, Footer } = Layout
+const { Sider, Header, Content } = Layout
 
 interface IAdminLayoutStates {
   collapsed: boolean
@@ -59,12 +59,8 @@ class AdminLayout extends React.Component<
                 minHeight: 280
               }}
             >
-              {/* {this.props.children} */}
               <AdminRoutes />
             </Content>
-            <Footer style={{ textAlign: 'center' }}>
-              React-Admin ©2019 Created by 1002501259@qq.com{' '}
-            </Footer>
           </Layout>
         </Layout>
       </div>
