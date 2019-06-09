@@ -3,10 +3,9 @@
  * @Author: tgb
  * @Date: 2019-05-17 10:42:45
  * @LastEditors: tgb
- * @LastEditTime: 2019-05-17 15:08:47
+ * @LastEditTime: 2019-06-09 14:09:27
  */
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Button, Input, Modal, BackTop } from 'antd'
 import SimpleMDE from 'simplemde'
 import 'simplemde/dist/simplemde.min.css'
@@ -14,7 +13,6 @@ import SelectCate from './Cate'
 import { getArticleContent, postArticleCreate, postArticleUpdate } from '@/api'
 import { translateMarkdown } from '@/utils'
 
-@connect((state) => state.article)
 class Edit extends Component {
   state = {
     value: '',
@@ -39,7 +37,13 @@ class Edit extends Component {
         this.smde.value(content)
         const tagList = tags.map((d) => d.name)
         const categoryList = categories.map((d) => d.name)
-        this.setState({ title, tagList, categoryList, isEdit: true, articleId })
+        this.setState({
+          title,
+          tagList,
+          categoryList,
+          isEdit: true,
+          articleId
+        })
       })
     }
   }

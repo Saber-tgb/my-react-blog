@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Tag } from 'antd'
 
@@ -13,7 +12,7 @@ const CheckableTag = Tag.CheckableTag
  * @class SelectCates
  * @extends {Component}
  */
-@connect((store) => store.article)
+// @connect((store) => store.article)
 class SelectCates extends Component {
   constructor(props) {
     super(props)
@@ -30,13 +29,6 @@ class SelectCates extends Component {
     }
 
     this.state = { selectList }
-  }
-
-  static propTypes = {
-    type: PropTypes.string.isRequired,
-    showNum: PropTypes.number,
-    list: PropTypes.array,
-    isEdit: PropTypes.bool
   }
 
   static defaultProps = {
@@ -116,4 +108,11 @@ class SelectCates extends Component {
   }
 }
 
-export default SelectCates
+const mapStateToProps = (state) => {
+  return {
+    categoryList: state.article.categoryList,
+    tagList: state.article.tagList
+  }
+}
+
+export default connect(mapStateToProps)(SelectCates)

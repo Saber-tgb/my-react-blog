@@ -54,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.4.4",
     "babel-jest": "^24.7.1",
     "babel-plugin-import": "^1.11.0",
     "http-proxy-middleware": "^0.19.1",

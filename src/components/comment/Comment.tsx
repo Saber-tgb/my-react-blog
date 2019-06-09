@@ -101,7 +101,6 @@ class BlogComment extends React.Component<ICommentProps, ICommentStates> {
   public render() {
     const { submitting, value } = this.state
     const { username, articleId, userId, commentList } = this.props
-    console.log('username', username)
 
     return (
       <div className="comment-wrapper">

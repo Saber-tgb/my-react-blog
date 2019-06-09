@@ -3,12 +3,12 @@
  * @Author: tgb
  * @Date: 2019-05-16 15:46:18
  * @LastEditors: tgb
- * @LastEditTime: 2019-05-17 09:59:21
+ * @LastEditTime: 2019-06-09 14:09:07
  */
 import AdminLayout from '@/views/admin/layout/AdminLayoutContainer'
 import lazy from '@/components/lazy/Lazy'
 import Home from '@/views/admin/home/Home'
-// const Edit = lazy(() => import('@/views/admin/article/Edit'))
+const Edit = lazy(() => import('@/views/admin/article/EditContainer'))
 const Login = lazy(() => import('@/views/admin/login/Login'))
 const ArticleManage = lazy(() =>
   import('@/views/admin/article/ManageContainer')
@@ -30,7 +30,7 @@ export default {
       icon: 'edit',
       name: '文章管理',
       childRoutes: [
-        // { path: 'edit', icon: 'edit', name: '新增文章', component: Edit }
+        { path: 'edit', icon: 'edit', name: '新增文章', component: Edit },
         {
           path: 'manage',
           icon: 'folder',
